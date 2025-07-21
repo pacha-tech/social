@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import '../services/authService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../services/cloudinaryService.dart';
-import 'homePage.dart';
+import 'home/homePage.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
