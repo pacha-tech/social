@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_app_check/firebase_app_check.dart'; // ✅ Import pour App Check
 
-import 'screens/bottom_bar.dart';
+import 'widgets/bottom_bar.dart';
 import 'screens/authScreen.dart';
 
 void main() async {

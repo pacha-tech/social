@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home/homePage.dart';
-import 'friendsScreen.dart';
-//import 'messagesScreen.dart';
+import '../screens/homePage.dart';
+import '../screens/friendsScreen.dart';
+import '../screens/conversationScreen.dart';
 //import 'notificationsScreen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -17,7 +17,7 @@ class _MainScreenState extends State<BottomBar> {
   final List<Widget> _screens = [
     HomePage(),
     FriendsScreen(),
-    //MessagesScreen(),
+    ConversationsScreen(),
     //NotificationsScreen(),
   ];
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../services/cloudinaryService.dart';
+import 'cloudinaryService.dart';
 
 class HomePageLogic {
 
@@ -125,6 +125,7 @@ class HomePageLogic {
   }
 
   Future<List<Map<String, dynamic>>> getMyStory() async {
+    /*
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return [];
 
@@ -135,6 +136,8 @@ class HomePageLogic {
         .get();
 
     return querySnapshot.docs.map((doc) => doc.data()).toList();
+     */
+      return getUserStories(FirebaseAuth.instance.currentUser?.uid ?? '');
   }
 
   Future<void> addStory(BuildContext context) async {
@@ -201,5 +204,29 @@ class HomePageLogic {
   Future<Map<String, dynamic>> getUserInfo(String uid) async {
     final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
     return doc.data() ?? {};
+  }
+
+  Future<List<Map<String, dynamic>>> getUserStories(String uid) async {
+    if (uid.isEmpty) return [];
+
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('stories')
+        .where('uid', isEqualTo: uid)
+        .where('expireAt', isGreaterThan: Timestamp.now())
+        .get();
+
+    final stories = querySnapshot.docs.map((doc) => {
+      ...doc.data(),
+      'docId': doc.id,
+    }).toList();
+
+    // Trier les stories par createdAt (du plus récent au plus ancien)
+    stories.sort((a, b) {
+      final aTs = a['createdAt'] as Timestamp?;
+      final bTs = b['createdAt'] as Timestamp?;
+      return (bTs?.compareTo(aTs!) ?? 0);
+    });
+
+    return stories;
   }
 }
